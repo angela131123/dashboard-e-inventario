@@ -1,62 +1,124 @@
+// =================================
+// js/inventario.js
+// =================================
+
 const API = "https://dummyjson.com/products";
 
-let inventario = JSON.parse(localStorage.getItem("inventario")) || [];
+let inventario =
+JSON.parse(localStorage.getItem("inventario")) || [];
+
 let api = [];
 
-// ================= CARGAR =================
-async function cargar() {
-    const res = await fetch(API);
-    const data = await res.json();
+// ======================
+async function cargar(){
 
-    api = data.products;
+const res = await fetch(API);
+const data = await res.json();
 
-    mostrar();
+api = data.products;
+
+mostrar();
+
 }
 
-// ================= MOSTRAR =================
-function mostrar() {
-    let html = "";
+// ======================
+function mostrar(){
 
-    api.forEach(p => {
-        html += `<li>${p.title} - $${p.price} (API)</li>`;
-    });
+let html = "";
 
-    inventario.forEach((p, i) => {
-        html += `
-        <li>
-            ${p.nombre} - $${p.precio} - Stock: ${p.stock}
-            <button onclick="eliminar(${i})">Eliminar</button>
-        </li>
-        `;
-    });
+// PRODUCTOS API
+api.forEach(p => {
 
-    document.getElementById("lista").innerHTML = html;
+html += `
+<li>
+🌐 ${p.title} - $${p.price}
+</li>
+`;
+
+});
+
+// INVENTARIO LOCAL
+inventario.forEach((p,i)=>{
+
+html += `
+<li>
+📦 ${p.nombre} - $${p.precio} - Stock: ${p.stock}
+
+<button onclick="eliminar(${i})">
+❌
+</button>
+</li>
+`;
+
+});
+
+document.getElementById("lista").innerHTML = html;
+
 }
 
-// ================= AGREGAR =================
-function agregar() {
-    const nombre = document.getElementById("nombre").value;
-    const precio = parseFloat(document.getElementById("precio").value);
-    const stock = parseInt(document.getElementById("stock").value);
+// ======================
+function agregar(){
 
-    if (!nombre || isNaN(precio) || isNaN(stock)) {
-        alert("Datos incorrectos");
-        return;
-    }
+const nombre =
+document.getElementById("nombre").value;
 
-    inventario.push({ nombre, precio, stock });
+const precio =
+parseFloat(document.getElementById("precio").value);
 
-    localStorage.setItem("inventario", JSON.stringify(inventario));
+const stock =
+parseInt(document.getElementById("stock").value);
 
-    mostrar();
+if(!nombre || isNaN(precio) || isNaN(stock)){
+alert("Datos incorrectos");
+return;
 }
 
-// ================= ELIMINAR =================
-function eliminar(i) {
-    inventario.splice(i, 1);
-    localStorage.setItem("inventario", JSON.stringify(inventario));
-    mostrar();
+// SI EXISTE ACTUALIZA
+let existe = inventario.find(p =>
+p.nombre.toLowerCase() === nombre.toLowerCase()
+);
+
+if(existe){
+
+existe.stock += stock;
+existe.precio = precio;
+
+}else{
+
+inventario.push({
+nombre,
+precio,
+stock
+});
+
 }
 
-// ================= INICIO =================
+localStorage.setItem(
+"inventario",
+JSON.stringify(inventario)
+);
+
+document.getElementById("nombre").value="";
+document.getElementById("precio").value="";
+document.getElementById("stock").value="";
+
+mostrar();
+
+}
+
+// ======================
+function eliminar(i){
+
+inventario.splice(i,1);
+
+localStorage.setItem(
+"inventario",
+JSON.stringify(inventario)
+);
+
+mostrar();
+
+}
+
+// ======================
 window.onload = cargar;

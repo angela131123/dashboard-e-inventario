@@ -1,0 +1,44 @@
+<!-- registro.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="contenedor">
+<h2>Registro de Usuarios</h2>
+
+<input type="hidden" id="id">
+
+<label>Nombre</label>
+<input type="text" id="nombre" placeholder="Nombre">
+
+<label>Email</label>
+<input type="email" id="email" placeholder="Correo">
+
+<label>Contraseña</label>
+<input type="password" id="password" placeholder="Contraseña">
+
+<div class="botones">
+<button onclick="guardarUsuario('usuario')">
+👤 Registrar Usuario
+</button>
+
+<button onclick="guardarUsuario('admin')">
+🔑 Registrar Administrador
+</button>
+</div>
+
+<a href="login.html">
+<button class="verde">Volver al Login</button>
+</a>
+
+</div>
+
+<script src="js/usuario.js"></script>
+</body>
+</html>

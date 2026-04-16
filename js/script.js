@@ -175,9 +175,129 @@ function generarFactura(total) {
 
     document.getElementById("factura").innerHTML = html;
 }
+// ================= PERFIL =================
+function mostrarPerfil() {
+
+    let perfil =
+        document.getElementById("perfil");
+
+    perfil.style.display =
+        perfil.style.display === "none"
+            ? "block"
+            : "none";
+
+    document.getElementById("nuevoNombre").value =
+        sesion.nombre;
+
+    document.getElementById("nuevoEmail").value =
+        sesion.email;
+
+    document.getElementById("nuevoPassword").value =
+        sesion.password;
+}
+
+function guardarPerfil() {
+
+    let usuarios =
+        JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    sesion.nombre =
+        document.getElementById("nuevoNombre").value;
+
+    sesion.email =
+        document.getElementById("nuevoEmail").value;
+
+    sesion.password =
+        document.getElementById("nuevoPassword").value;
+
+    usuarios = usuarios.map(u => {
+        if (u.id == sesion.id) return sesion;
+        return u;
+    });
+
+    localStorage.setItem(
+        "usuarios",
+        JSON.stringify(usuarios)
+    );
+
+    localStorage.setItem(
+        "sesionActiva",
+        JSON.stringify(sesion)
+    );
+
+    alert("Perfil actualizado");
+
+    location.reload();
+}
+// ================= CERRAR =================
+function cerrarSesion() {
+    localStorage.removeItem("sesionActiva");
+    window.location.href = "login.html";
+}
+// AL CARGAR
+window.onload = () => {
+
+document.getElementById("usuarioActivo").innerText =
+"👤 " + sesion.nombre;
+
+document.getElementById("rolActivo").innerText =
+" | 🔑 " + (sesion.rol || "usuario");
+
+// MOSTRAR INVENTARIO SOLO ADMIN
+if(sesion.rol === "admin"){
+document.getElementById("btnInventario").style.display = "inline-block";
+}else{
+document.getElementById("btnInventario").style.display = "none";
+}
+
+listarProductos();
+actualizarCarrito();
+
+};
+
+// CAMBIAR ROL
+function cambiarRol(){
+
+let usuarios =
+JSON.parse(localStorage.getItem("usuarios")) || [];
+
+if(!sesion.rol || sesion.rol === "usuario"){
+sesion.rol = "admin";
+}else{
+sesion.rol = "usuario";
+}
+
+usuarios = usuarios.map(u => {
+if(u.id == sesion.id){
+return sesion;
+}
+return u;
+});
+
+localStorage.setItem("usuarios", JSON.stringify(usuarios));
+localStorage.setItem("sesionActiva", JSON.stringify(sesion));
+
+alert("Rol cambiado a: " + sesion.rol);
+
+location.reload();
+
+}
 
 // ================= INICIO =================
 window.onload = () => {
+
+    document.getElementById("usuarioActivo").innerText =
+        "👤 " + sesion.nombre;
+
+    document.getElementById("rolActivo").innerText =
+        sesion.rol
+            ? "🔑 " + sesion.rol
+            : "👤 Usuario";
+
+    if (sesion.rol !== "admin") {
+        document.getElementById("btnInventario").style.display = "none";
+    }
+
     listarProductos();
     actualizarCarrito();
 };

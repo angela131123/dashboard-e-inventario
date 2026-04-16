@@ -1,11 +1,23 @@
+<!-- ===============================
+inventario.html
+=============================== -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inventario PRO</title>
+<link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
+
+<script>
+let sesion = JSON.parse(localStorage.getItem("sesionActiva"));
+if(!sesion){
+window.location.href="login.html";
+}
+</script>
 
 <h1>📦 Inventario</h1>
 
@@ -13,11 +25,15 @@
 <input type="number" id="precio" placeholder="Precio">
 <input type="number" id="stock" placeholder="Stock">
 
-<button onclick="agregar()">Agregar</button>
+<button onclick="agregar()">➕ Agregar</button>
+
+<hr>
 
 <ul id="lista"></ul>
 
-<a href="index.html"><button>Volver</button></a>
+<a href="index.html">
+<button>⬅ Volver</button>
+</a>
 
 <script src="js/inventario.js"></script>
 

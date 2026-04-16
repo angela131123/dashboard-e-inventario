@@ -1,40 +1,57 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sistema Comercial</title>
-
 <link rel="stylesheet" href="css/styles.css">
-
 </head>
-
 <body>
+
+<script>
+let sesion = JSON.parse(localStorage.getItem("sesionActiva"));
+
+if(!sesion){
+window.location.href="login.html";
+}
+</script>
+
+<header class="top-bar">
 
 <h1>🛒 Sistema Comercial</h1>
 
-<div class="top-bar">
-<button onclick="listarProductos()">🔄 Cargar Productos</button>
+<div class="perfil-box">
+<span id="usuarioActivo"></span>
+<span id="rolActivo"></span>
 
-<input type="text" id="buscar" placeholder="🔍 Buscar producto">
+<button onclick="cerrarSesion()">🚪 Salir</button>
+</div>
+
+</header>
+
+<div class="top-bar">
+
+<button onclick="listarProductos()">🔄 Productos</button>
+
+<input type="text" id="buscar" placeholder="Buscar">
+
 <button onclick="buscarProductos()">Buscar</button>
 
 <select id="ordenar" onchange="ordenarProductos()">
 <option value="">Ordenar</option>
-<option value="asc">⬆️ Menor precio</option>
-<option value="desc">⬇️ Mayor precio</option>
+<option value="asc">Menor precio</option>
+<option value="desc">Mayor precio</option>
 </select>
 
-<a href="ventas.html"><button>📊 Ventas</button></a>
-</div>
+<a href="inventario.html">
+<button id="btnInventario">📦 Inventario</button>
+</a>
 
-<hr>
+<a href="ventas.html">
+<button id="btnVentas">📊 Ventas</button>
+</a>
 
-<h2>📦 Inventario</h2>
-<div class="inventario-box">
-<input type="text" id="nombre" placeholder="Nombre">
-<input type="number" id="precio" placeholder="Precio">
-<input type="number" id="stock" placeholder="Stock">
-<button onclick="agregarInventario()">➕ Agregar / Actualizar</button>
 </div>
 
 <hr>
@@ -50,12 +67,17 @@
 
 <hr>
 
+<div id="moduloCaja">
 <h2>💰 Caja</h2>
+
 <p>Total: <strong id="totalCaja"></strong></p>
+
 <input type="number" id="pagoCliente" placeholder="Dinero recibido">
-<button onclick="pagar()">💵 Pagar</button>
+
+<button onclick="pagar()">Pagar</button>
 
 <p id="cambio"></p>
+</div>
 
 <hr>
 
@@ -63,6 +85,5 @@
 <div id="factura"></div>
 
 <script src="js/script.js"></script>
-
 </body>
 </html>

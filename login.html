@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="contenedor">
+
+<h2>Iniciar Sesión</h2>
+
+<input type="email" id="email" placeholder="Correo">
+<input type="password" id="password" placeholder="Contraseña">
+
+<button onclick="login('usuario')">
+👤 Ingresar Usuario
+</button>
+
+<button onclick="login('admin')">
+🔑 Ingresar Administrador
+</button>
+
+<p id="mensaje"></p>
+
+<a href="registro.html">
+<button class="verde">Registrarse</button>
+</a>
+
+</div>
+
+<script src="js/login.js"></script>
+</body>
+</html>
